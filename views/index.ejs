@@ -29,20 +29,20 @@
         </ol>
         <div class="case-container appeal-case-container">
           <header class="page-header">
-              <a role="button" class="btn btn-warning btn-lg btn-block" href="/appeal/"><h1>申訴<span class="badge"><%= data.cases.filter((e) => e.type === 'appeal').length %></span></h1></a>
+              <a role="button" class="btn btn-warning btn-lg btn-block" href="/appeal/"><h1>申訴<span class="badge"><%= data.appeal_cases_count %></span></h1></a>
           </header>
           <main id="appeal">
-              <% data.cases.filter((e) => e.type === 'appeal').splice(0, 3).forEach(function(Case){ %>
+              <% data.appeal_cases.forEach(function(Case){ %>
                   <%- include('join/article',  Object.assign(Case, {btnTheme : 'warning'})) %>
                       <% }); %>
           </main>
         </div>
         <div class="case-container suggest-case-container">
           <header class="page-header">
-              <a role="button" class="btn btn-info btn-lg btn-block" href="/suggest/"><h1>建議<span class="badge"><%= data.cases.filter((e) => e.type === 'suggest').length %></span></h1></a>
+              <a role="button" class="btn btn-info btn-lg btn-block" href="/suggest/"><h1>建議<span class="badge"><%= data.suggest_cases_count %></span></h1></a>
           </header>
           <main id="suggest">
-              <% data.cases.filter((e) => e.type === 'suggest').splice(0, 3).forEach(function(Case){ %>
+              <% data.suggest_cases.forEach(function(Case){ %>
                   <%- include('join/article',  Object.assign(Case, {btnTheme : 'info'})) %>
                       <% }); %>
           </main>

@@ -371,7 +371,15 @@ function main() {
   const router_root = express.Router();
 
   router_root.get('/', function(req, res) {
+    const
+      keyword = req.query.keyword,
+      where = (keyword) ? {
+        title: {
+          $like: `%${keyword}%`
+        }
+      } : void 0;
     Case.findAll({
+        where: where,
         include: [{
           model: User
         }, {
@@ -381,14 +389,20 @@ function main() {
         order: 'createdAt DESC'
       })
       .then((instances) => {
-        const cases = instances.map((instance) => {
-          const aCase = instance.toJSON();
-          aCase.endorse_number = aCase.endorses.length;
-          return aCase;
-        });
+        const
+          cases = instances.map((instance) => {
+            const aCase = instance.toJSON();
+            aCase.endorse_number = aCase.endorses.length;
+            return aCase;
+          }),
+          appealCases = cases.filter((e) => e.type === 'appeal'),
+          suggestCases = cases.filter((e) => e.type === 'suggest');
         res.render('index', {
           data: {
-            cases: cases,
+            appeal_cases: (keyword) ? appealCases : appealCases.splice(0, 3),
+            appeal_cases_count: appealCases.length,
+            suggest_cases: (keyword) ? suggestCases : suggestCases.splice(0, 3),
+            suggest_cases_count: suggestCases.length,
             url: getUrl(req),
           }
         });
