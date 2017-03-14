@@ -590,14 +590,13 @@ function main() {
         where: where,
         include: [User, Endorse, Response]
       })
-      .then((instances) => {
+      .then((instances) =>
         res.render('admin/index', {
           data: {
             title: '後台',
             cases: instances.map((instance) => instance.toJSON())
           }
-        });
-      });
+        }));
   });
 
   router_admin.post('/response', function(req, res) {
@@ -618,6 +617,40 @@ function main() {
             id: req.body.caseId
           }
         }))
+      .catch(() => void 0)
+      .then(() => res.redirect('/admin'));
+  });
+
+  router_admin.post('/response/delete', function(req, res) {
+    /* 找出乾回應 */
+    Response.findOne({
+        where: {
+          id: req.body.responseId
+        }
+      })
+      /* 記下回應的案件ID，並刪除回應 */
+      .then((instance) => {
+        const caseId = instance.get('caseId');
+        return instance.destroy()
+          .then(() => caseId);
+      })
+      /* 找出回應 */
+      .then((caseId) =>
+        Case.findOne({
+          where: {
+            id: caseId
+          },
+          include: [Response]
+        }))
+        /* 如果該案件的回應數為零，將第三階段完成時間設為null */
+      .then((instance) => {
+        if (instance.get('responses').length === 0) {
+          return instance.update({
+            thirdStepCompletedAt: null
+          });
+        }
+        return;
+      })
       .catch(() => void 0)
       .then(() => res.redirect('/admin'));
   });

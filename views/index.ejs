@@ -13,14 +13,9 @@
     <% include nav %>
     <div id="banner">
         <span class="block">
-          <p>
-          </p>
-            <p>
-              讓彰師
-            </p>
-            <p>
-              變得更好
-            </p>
+            <p></p>
+            <p>讓彰師</p>
+            <p>變得更好</p>
         </span>
     </div>
     <div class="container">
@@ -28,14 +23,14 @@
             <li class="active"><i class="fa fa-home fa-2x fa-inverse" aria-hidden="true"></i> 首頁</li>
         </ol>
         <div class="case-container appeal-case-container">
-          <header class="page-header">
-              <a role="button" class="btn btn-warning btn-lg btn-block" href="/appeal/"><h1>申訴<span class="badge"><%= data.appeal_cases_count %></span></h1></a>
-          </header>
-          <main id="appeal">
-              <% data.appeal_cases.forEach(function(Case){ %>
-                  <%- include('join/article',  Object.assign(Case, {btnTheme : 'warning'})) %>
-                      <% }); %>
-          </main>
+            <header class="page-header">
+                <a role="button" class="btn btn-warning btn-lg btn-block" href="/appeal/"><h1>申訴<span class="badge"><%= data.appeal_cases_count %></span></h1></a>
+            </header>
+            <main id="appeal">
+                <% data.appeal_cases.forEach(function(Case){ %>
+                    <%- include('join/article',  Object.assign(Case, {btnTheme : 'warning'})) %>
+                <% }); %>
+            </main>
         </div>
         <div class="case-container suggest-case-container">
           <header class="page-header">
@@ -44,7 +39,7 @@
           <main id="suggest">
               <% data.suggest_cases.forEach(function(Case){ %>
                   <%- include('join/article',  Object.assign(Case, {btnTheme : 'info'})) %>
-                      <% }); %>
+              <% }); %>
           </main>
         </div>
     </div>
