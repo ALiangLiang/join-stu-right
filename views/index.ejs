@@ -1,0 +1,56 @@
+<html>
+
+<head>
+    <meta property="og:description" content="參與，讓彰師，變得更好。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= data.url %>" />
+    <meta property="og:rich_attachment" content="true" />
+    <%- include('head', {title : webTitle}) %>
+    <link rel="stylesheet" href="/styles/index.css">
+</head>
+
+<body>
+    <% include nav %>
+    <div id="banner">
+        <span class="block">
+          <p>
+          </p>
+            <p>
+              讓彰師
+            </p>
+            <p>
+              變得更好
+            </p>
+        </span>
+    </div>
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="active"><i class="fa fa-home fa-2x fa-inverse" aria-hidden="true"></i> 首頁</li>
+        </ol>
+        <div class="case-container appeal-case-container">
+          <header class="page-header">
+              <a role="button" class="btn btn-warning btn-lg btn-block" href="/appeal/"><h1>申訴<span class="badge"><%= data.cases.filter((e) => e.type === 'appeal').length %></span></h1></a>
+          </header>
+          <main id="appeal">
+              <% data.cases.filter((e) => e.type === 'appeal').splice(0, 3).forEach(function(Case){ %>
+                  <%- include('join/article',  Object.assign(Case, {btnTheme : 'warning'})) %>
+                      <% }); %>
+          </main>
+        </div>
+        <div class="case-container suggest-case-container">
+          <header class="page-header">
+              <a role="button" class="btn btn-info btn-lg btn-block" href="/suggest/"><h1>建議<span class="badge"><%= data.cases.filter((e) => e.type === 'suggest').length %></span></h1></a>
+          </header>
+          <main id="suggest">
+              <% data.cases.filter((e) => e.type === 'suggest').splice(0, 3).forEach(function(Case){ %>
+                  <%- include('join/article',  Object.assign(Case, {btnTheme : 'info'})) %>
+                      <% }); %>
+          </main>
+        </div>
+    </div>
+    <!-- <script src="/js/index.js"></script> -->
+    <%- include footer %>
+
+</body>
+
+</html>

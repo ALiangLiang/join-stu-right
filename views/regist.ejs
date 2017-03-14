@@ -1,0 +1,32 @@
+<html>
+
+<head>
+    <%- include('head', {webTitle : '註冊 - ' + webTitle}) %>
+</head>
+
+<body>
+    <% include nav %>
+        <div class="container">
+            <header class="page-header">
+                <h1>請輸入您的學號，並且設定一組新的密碼。</h1>
+            </header>
+            <form action="regist" method="POST">
+                <div class="form-group">
+                    <label for="name">學號</label>
+                    <input type="text" class="form-control" name="name" placeholder="暱稱">
+                </div>
+                <div class="form-group">
+                    <label for="stu_id">學號</label>
+                    <input type="text" class="form-control" name="stu_id" placeholder="學號">
+                </div>
+                <div class="form-group">
+                    <label for="pwd">密碼</label>
+                    <input type="password" class="form-control" name="pwd" placeholder="密碼">
+                </div>
+                <input type="hidden" name="redirect" value="<%= redirect %>">
+                <button type="submit" class="btn btn-default">註冊</button>
+            </form>
+        </div>
+</body>
+
+</html>

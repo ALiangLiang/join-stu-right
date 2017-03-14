@@ -1,0 +1,104 @@
+<html>
+
+<head>
+    <%- include('../head', {title : data.title + ' | ' + webTitle}) %>
+</head>
+
+<body>
+    <% include ../nav %>
+    <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-home fa-1x fa-inverse" aria-hidden="true"></i> 後台首頁</li>
+        <li><a href="/admin/admin">管理員設定</a></li>
+    </ol>
+    <a class="btn btn-default" href="/admin/?view=all">檢視所有案件</a>
+    <a class="btn btn-default" href="/admin">檢視未結案的案件</a>
+    <% data.cases.forEach((e, i) => { %>
+        <div class="collapse" id="collapse<%= e.id %>">
+            <div class="well">
+                <form action="/admin/response" method="post">
+                    <input type="hidden" name="caseId" value="<%= e.id %>">
+                    <div class="form-group">
+                        <label for="responseTextarea">回應 <%= e.id %> 內容</label>
+                        <textarea id="responseTextarea" name="content" class="form-control" rows="5"></textarea>
+                    </div>
+                    <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapse<%= e.id %>" aria-expanded="false" aria-controls="collapse<%= e.id %>">隱藏</button>
+                    <button type="submit" class="btn btn-primary">回應</button>
+                </form>
+            </div>
+        </div>
+    <% }) %>
+    <table class="table table-striped table-hover table-condensed table-bordered">
+        <thead>
+            <tr class="active">
+                <td>選取</td>
+                <td>操作</td>
+                <td>ID</td>
+                <td>標題</td>
+                <td>內容</td>
+                <td>照片</td>
+                <td>類型</td>
+                <td>階段</td>
+                <td>提案人</td>
+                <td>附議數量</td>
+                <td>建立時間</td>
+                <td>附議完成時間</td>
+                <td>回應完成時間</td>
+                <td>結案時間</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.cases.sort((a, b) => b.endorses.length - a.endorses.length).forEach((e, i) => { %>
+                <tr class="<%= (e.endorses.length >= threshold && e.secondStepCompletedAt) ? 'warning' : void 0 %>">
+                    <td><input type="checkbox"></td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu<%= e.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu<%= e.id %>" data-id="<%= e.id %>">
+                                <li><a data-toggle="collapse" href="#collapse<%= e.id %>" aria-expanded="false" aria-controls="collapse<%= e.id %>">回應</a></li>
+                                <li><a onclick="return confirm('確定結案?')?true:false" href="/admin/complete/<%= e.id %>">結案</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a onclick="return confirm('確定刪除?')?true:false" href="/admin/remove/<%= e.id %>">移除</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td><%= e.id %></td>
+                    <td><a href="<%= `${site_url}detail/${e.id}` %>"><%= e.title %></a></td>
+                    <td><%= e.content %></td>
+                    <td>
+                        <% if(e.image) { %>
+                            <a style="width:100px" href="<%= e.image %>" class="thumbnail"><img src="<%= e.image %>" alt="..."></a>
+                        <% } %>
+                    </td>
+                    <td><%= (e.type === 'appeal') ? '申訴' : '建議' %></td>
+                    <td><%= (e.step === 2) ? '附議' : ((e.step === 3) ? '回應' : '結案') %></td>
+                    <td><%= (e.isAnonymous) ? `匿名(${e.user.displayName})` : e.user.displayName %></td>
+                    <td><%= e.endorses.length %></td>
+                    <td><%= e.createdAt %></td>
+                    <td><%= e.secondStepCompletedAt %></td>
+                    <td><%= e.thirdStepCompletedAt %></td>
+                    <td><%= e.fourthStepCompletedAt %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    黃色區塊為到達附議門檻，等待機關回應的案件。目前門檻為 <%= threshold %> 。
+    <form class="form-inline" action="threshold" method="post">
+        <div class="form-group">
+            <label for="threshold-input">修改門檻數量</label>
+            <input name="threshold" type="number" class="form-control" placeholder="門檻數量" id="threshold-input" value="<%= threshold %>">
+        </div>
+        <button type="submit" class="btn btn-primary">修改</button>
+    </form>
+    <form class="form-inline" action="day_limit" method="post">
+        <div class="form-group">
+            <label for="response-day-limit-input">修改回應天數限制</label>
+            <input name="response_day_limit" type="number" class="form-control" placeholder="天數" id="response-day-limit-input" value="<%= response_day_limit %>">
+        </div>
+        <button type="submit" class="btn btn-primary">修改</button>
+    </form>
+    <%- include footer %>
+</body>
+
+</html>

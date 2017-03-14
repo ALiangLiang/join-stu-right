@@ -1,0 +1,17 @@
+<article>
+    <div class="jumbotron">
+        <div class="container">
+            <h1><%= title %></h1>
+            <p><%= content %></p>
+            <div class="left">
+                <p><%= endorse_number %> 人附議</p>
+                <p><a class="btn btn-<%= btnTheme %> btn-lg" href="/detail/<%= id %>" role="button">詳細內容</a></p>
+            </div>
+            <% if(fourthStepCompletedAt) { %>
+                <div class="right-status-block endorse-block completed">已結案</div>
+            <% } else if (secondStepCompletedAt) { %>
+                <div class="right-status-block endorse-block response">等回應</div>
+            <% } %>
+        </div>
+    </div>
+</article>

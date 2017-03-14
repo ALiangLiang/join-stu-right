@@ -1,0 +1,27 @@
+<meta property="og:title" content="<%= title %>">
+<meta property="fb:app_id" content="<%= app_id %>" />
+<meta property="og:site_name" content="<%= webTitle %>" />
+<meta property="og:image" content="<%= icon_url %>">
+<meta property="og:locale" content="zh_TW">
+<meta property="fb:pages" content="<%= page_id %>" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>
+    <%= title %>
+</title>
+<link rel="icon" type="image/jpeg" href="/images/icon.jpg" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+<link rel="stylesheet" href="/styles/main.css">
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/worker.js')
+  .then(function(reg) {
+    console.log('Registration succeeded. Scope is ' + reg.scope);
+  }).catch(function(error) {
+    console.log('Registration failed with ' + error);
+  });
+}
+</script>

@@ -1,0 +1,8 @@
+Thumbs.db
+Desktop.ini
+
+node_modules/
+test.sql
+
+assets/uploads
+db_config.json
