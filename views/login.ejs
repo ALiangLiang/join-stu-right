@@ -19,7 +19,7 @@
         border: 3px solid #9898ff;
       }
       
-      .logo {
+      .tab-logo {
         width:30px;
         margin-right:5px;
       }
@@ -37,55 +37,57 @@
 
 <body>
     <% include nav %>
-        <div class="container">
-            <header class="page-header">
-                <h1>登入</h1>
-            </header>
-            <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active">
-                <a href="#gsuite" aria-controls="home" role="tab" data-toggle="tab">
-                  <img class="logo" src="/images/google-logo.png">
-                  用「G suite帳戶」登入
-                </a>
-              </li>
-              <li role="presentation">
-                <a href="#ncue" aria-controls="profile" role="tab" data-toggle="tab">
-                  <img class="logo" src="/images/ncue.png">
-                  用「NCUE帳戶」登入
-                </a>
-              </li>
-            </ul>
-            
-            <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active" id="gsuite">
-                <div class="container">
-                  <div class="col-md-10 col-md-offset-1">
-                    <h5>本平台使用彰師大的 Google 帳號登入，主機為gm.ncue.edu.tw。</h5>
-                    <p class="importent">帳號為「<span class="more-importent">小寫學號@gm.ncue.edu.tw</span>」，預設密碼為「<span class="more-importent">身分證字號前八碼</span>」。<br />(s0254003@gm.ncue.edu.tw / B1234567)</p>
-                    <p>了解之後，請點擊下面圖片。</p>
-                    <a href="/auth/google"><img id="google-logo" src="/images/fixed-google-logo-font.png"></a>
-                  </div>
-                </div>
-              </div>
-              <div role="tabpanel" class="tab-pane" id="ncue">
-                <div class="container">
-                  <div class="col-md-6 col-md-offset-3">
-                    <form method="post" action="/auth/ncue" data-toggle="validator">
-                      <div class="form-group">
-                        <label for="account">學號</label>
-                        <input name="id" type="text" pattern="[a-zA-Z][0-9]{7}" class="form-control" id="account" placeholder="學號" require>
-                      </div>
-                      <div class="form-group">
-                        <label for="password">密碼</label>
-                        <input name="password" type="password" class="form-control" id="password" placeholder="密碼" require>
-                      </div>
-                      <button type="submit" class="btn btn-primary">登入</button>
-                    </form>
-                  </div>
-                </div>
+    <div class="container">
+        <header class="page-header">
+            <h1>登入</h1>
+        </header>
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active">
+            <a href="#gsuite" aria-controls="gsuite" role="tab" data-toggle="tab">
+              <img class="tab-logo" src="/images/google-logo.png">
+              用「G suite帳戶」登入
+            </a>
+          </li>
+          <li role="presentation">
+            <a href="#ncue" aria-controls="ncue" role="tab" data-toggle="tab">
+              <img class="tab-logo" src="/images/ncue.png">
+              用「NCUE帳戶」登入
+            </a>
+          </li>
+        </ul>
+        
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="gsuite">
+            <div class="container">
+              <div class="col-md-10 col-md-offset-1">
+                <h5>本平台使用彰師大的 Google 帳號登入，主機為gm.ncue.edu.tw。</h5>
+                <p class="importent">帳號為「<span class="more-importent">小寫學號@gm.ncue.edu.tw</span>」，預設密碼為「<span class="more-importent">身分證字號前八碼</span>」。<br />(s0254003@gm.ncue.edu.tw / B1234567)</p>
+                <p>了解之後，請點擊下面圖片。</p>
+                <a href="/auth/google"><img id="google-logo" src="/images/fixed-google-logo-font.png"></a>
               </div>
             </div>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="ncue">
+            <div class="container">
+              <div class="col-md-6 col-md-offset-3">
+                <form method="post" action="/auth/ncue" data-toggle="validator">
+                  <div class="form-group">
+                    <label for="account">學號</label>
+                    <input name="id" type="text" pattern="[a-zA-Z][0-9]{7}" class="form-control" id="account" placeholder="學號" require>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">密碼</label>
+                    <input name="password" type="password" class="form-control" id="password" placeholder="密碼" require>
+                  </div>
+                  <button type="submit" class="btn btn-primary">登入</button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 
 </html>

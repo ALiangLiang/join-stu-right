@@ -1,6 +1,7 @@
 body {
     color: #666;
     font-size: 15px;
+    font-family: "微軟正黑體";
     background: #f8f8f8;
 }
 
@@ -161,4 +162,8 @@ a {
 
 .left {
     float:left;
+}
+
+.breadcrumb>li+li:before {
+    content: "\2192\00a0";;
 }

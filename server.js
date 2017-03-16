@@ -396,17 +396,33 @@ function main() {
             return aCase;
           }),
           appealCases = cases.filter((e) => e.type === 'appeal'),
-          suggestCases = cases.filter((e) => e.type === 'suggest');
+          suggestCases = cases.filter((e) => e.type === 'suggest'),
+          appealCasesCount = appealCases.length,
+          suggestCasesCount = suggestCases.length;
         res.render('index', {
           data: {
             appeal_cases: (keyword) ? appealCases : appealCases.splice(0, 3),
-            appeal_cases_count: appealCases.length,
+            appeal_cases_count: appealCasesCount,
             suggest_cases: (keyword) ? suggestCases : suggestCases.splice(0, 3),
-            suggest_cases_count: suggestCases.length,
+            suggest_cases_count: suggestCasesCount,
             url: getUrl(req),
           }
         });
       });
+  });
+
+  router_root.get('/about', function(req, res) {
+    res.render('about', {
+      data: {
+        url: getUrl(req)
+      }});
+  });
+
+  router_root.get('/faqs', function(req, res) {
+    res.render('faqs', {
+      data: {
+        url: getUrl(req)
+      }});
   });
 
   router_root.get(['/appeal', '/suggest'], function(req, res) {
@@ -642,7 +658,7 @@ function main() {
           },
           include: [Response]
         }))
-        /* 如果該案件的回應數為零，將第三階段完成時間設為null */
+      /* 如果該案件的回應數為零，將第三階段完成時間設為null */
       .then((instance) => {
         if (instance.get('responses').length === 0) {
           return instance.update({
