@@ -4,5 +4,7 @@ Desktop.ini
 node_modules/
 test.sql
 
+assets/ckeditor
 assets/uploads
+assets/js/ckeditor.js
 db_config.json

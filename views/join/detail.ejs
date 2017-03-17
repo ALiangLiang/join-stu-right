@@ -62,7 +62,6 @@
                 if(data.thirdStepCompletedAt) step = 4;
                 else if (data.secondStepCompletedAt) step = 2;
                 function determineStepStatus(i) {return (i < step)?'active':(i === step)?'active focus':''}
-                function formatDate(date) {return `${date.getYear() + 1900}-${date.getMonth() + 1}-${date.getDate()}`}
             %>
             <ul class="progressbar">
                 <li class="<%= determineStepStatus(0) %>">

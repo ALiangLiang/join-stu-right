@@ -19,8 +19,8 @@ const
     dest: 'assets/uploads',
     mimetype: 'image/*',
     fileFilter: function fileFilter(req, file, cb) {
-      if (['image/jpg', 'image/png', 'image/gif'].find((type) => type === file.mimetype)) cb(null, true);
-      else cb(new Error('Can\'t accept this format'));
+      if (['image/jpeg', 'image/png', 'image/gif'].find((type) => type === file.mimetype)) cb(null, true);
+      else cb(null, false);
     }
   });
 
@@ -161,6 +161,10 @@ const
     deletedAt: 'deletedAt',
     paranoid: true
   }),
+  Faq = sequelize.define('faq', {
+    title: Sequelize.STRING,
+    content: Sequelize.STRING(2047)
+  }),
   Config = sequelize.define('config', {
     key: Sequelize.STRING,
     value: Sequelize.STRING,
@@ -185,11 +189,13 @@ Attention.belongsTo(Case);
 Attention.belongsTo(User);
 News.belongsTo(Attention);
 
-sequelize.sync()
-  // .then(function() {
-  //   const fs = require('fs');
-  //   return sequelize.query(fs.readFileSync('test.sql', 'utf8'));
-  // })
+sequelize.sync({
+    force: true
+  })
+  .then(function() {
+    const fs = require('fs');
+    return sequelize.query(fs.readFileSync('test.sql', 'utf8'));
+  })
   .then(() =>
     Config.findAll()
     .then((instances) =>
@@ -203,6 +209,9 @@ sequelize.sync()
 
 function main() {
   app.set('view engine', 'ejs');
+
+  app.locals.formatTime = (date) => (date) ? `${date.getYear() + 1900}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}` : '';
+  app.locals.formatDate = (date) => (date) ? `${date.getYear() + 1900}-${date.getMonth() + 1}-${date.getDate()}` : '';
 
   app.use(express.static('assets'));
   app.use(cookieParser());
@@ -415,14 +424,8 @@ function main() {
     res.render('about', {
       data: {
         url: getUrl(req)
-      }});
-  });
-
-  router_root.get('/faqs', function(req, res) {
-    res.render('faqs', {
-      data: {
-        url: getUrl(req)
-      }});
+      }
+    });
   });
 
   router_root.get(['/appeal', '/suggest'], function(req, res) {
@@ -591,7 +594,30 @@ function main() {
       });
   });
 
-  app.use('/', router_root);
+  const router_faqs = express.Router();
+
+  router_faqs.get('/', function(req, res) {
+    Faq.findAll()
+      .then((instances) =>
+        res.render('faqs/index', {
+          data: {
+            url: getUrl(req),
+            faqs: instances.map((instance) => instance.toJSON())
+          }
+        }));
+  });
+
+  router_faqs.get('/detail/:id', function(req, res) {
+    Faq.findOne({
+        where: {
+          id: req.params.id
+        }
+      })
+      .then((instance) =>
+        res.render('faqs/detail', {
+          data: instance.toJSON()
+        }));
+  });
 
   const router_admin = express.Router();
   router_admin.use(verification, verifyAdmin);
@@ -782,12 +808,89 @@ function main() {
       .then(() => res.redirect('/admin/admin'));
   });
 
+  router_admin.get('/faqs', function(req, res) {
+    Faq.findAll()
+      .then((instances) => res.render('admin/faqs', {
+        data: {
+          title: '常見問題管理',
+          faqs: instances.map((instance) => instance.toJSON())
+        }
+      }));
+  });
+
+  router_admin.get('/faqs/remove/:id', function(req, res, next) {
+    const id = req.params.id;
+    if (Number.isNaN(Number(id)))
+      return next();
+    Faq.destroy({
+        where: {
+          id: id
+        }
+      })
+      .then(() => res.redirect('/admin/faqs'));
+  });
+
+  router_admin.get('/editor', function(req, res) {
+    res.render('admin/editor');
+  });
+
+  router_admin.get('/editor/:id', function(req, res) {
+    Faq.findOne({
+        where: {
+          id: req.params.id
+        }
+      })
+      .then((instance) => 
+        res.render('admin/editor', {
+          data: instance.toJSON()
+        }));
+  });
+
+  router_admin.post('/editor', function(req, res) {
+    Faq.create({
+        title: req.body.title,
+        content: req.body.content
+      })
+      .then((instance) => res.redirect('/faqs/detail/' + instance.get('id')));
+  });
+
+  router_admin.post('/editor/:id', function(req, res, next) {
+    const id = req.params.id;
+    if (Number.isNaN(Number(id)))
+      return next();
+    Faq.update({
+        title: req.body.title,
+        content: req.body.content
+      }, {
+        where: {
+          id: id
+        }
+      })
+      .then(() => res.redirect('/faqs/detail/' + id));
+  });
+
+  router_admin.post('/editor/upload-file', upload.single('upload'), function(req, res) {
+    res.send({
+      fileName: req.file.filename,
+      uploaded: 1,
+      url: `/uploads/${req.file.filename}`
+    });
+  });
+
+  router_admin.post('/editor/upload-image', upload.single('upload'), function(req, res) {
+    res.send(`<script type = "text/javascript" >
+  window.parent.CKEDITOR.tools.callFunction("0", "/uploads/${req.file.filename}", ""); 
+</script>`);
+  });
+
+  app.use('/', router_root);
+  app.use('/faqs', router_faqs);
   app.use('/admin', router_admin);
 
-  app.use(function(req, res) {
-    if (req.accepts('html'))
-      return res.redirect('/');
-  });
+  // app.use(function(req, res) {
+  //   if (req.accepts('html'))
+  //     return res.redirect('/');
+  // });
 
   const
     server = https.createServer({

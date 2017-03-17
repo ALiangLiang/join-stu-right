@@ -15,25 +15,26 @@
         
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/about">關於</a></li>
-                <li><a href="/faqs">常見問題</a></li>
                 <form class="navbar-form navbar-left" action="/">
                     <div class="form-group">
                         <input name="keyword" type="text" class="form-control" placeholder="搜尋">
                     </div>
                 </form>
+                <li><a href="/about"><i class="fa fa-university" aria-hidden="true"></i> 關於</a></li>
+                <li><a href="/faqs"><i class="fa fa-question" aria-hidden="true"></i> 常見問題</a></li>
                 <% if(!login) { %>
-                    <a role="button" class="btn btn-primary navbar-btn" href="/login">登入</a>
+                    <a role="button" class="btn btn-primary navbar-btn" href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> 登入</a>
                 <% } else { %>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <% const hour = new Date().getHours(); %>
+                            <i class="fa fa-user" aria-hidden="true"></i>
                             <%= user.givenName %>同學，<%= (hour < 5 || hour > 5) ? '晚' : (hour < 12) ? '早' : '午' %>安。 <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <% if (user.isAdmin) { %>
-                              <li><a href="/admin">後臺管理</a></li>
+                              <li><a href="/admin"><i class="fa fa-font-awesome" aria-hidden="true"></i> 後臺管理</a></li>
                             <% } %>
-                            <li><a href="/logout">登出</a></li>
+                            <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> 登出</a></li>
                         </ul>
                     </li>
                 <% } %>

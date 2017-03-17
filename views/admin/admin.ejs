@@ -6,39 +6,46 @@
 
 <body>
     <% include ../nav %>
-    <ol class="breadcrumb">
-        <li><a href="/admin"><i class="fa fa-home fa-1x fa-inverse" aria-hidden="true"></i> 後台首頁</a></li>
-        <li class="active">管理員設定</li>
-    </ol>
-    <table class="table table-striped table-hover table-condensed table-bordered">
-        <thead>
-            <tr class="active">
-                <td>操作</td>
-                <td>ID</td>
-                <td>名稱</td>
-                <td>email</td>
-            </tr>
-        </thead>
-        <tbody>
-            <% data.admins.forEach((e, i) => { %>
-                <tr>
-                    <td>
-                        <a onclick="return confirm('確定移除管理員?')?true:false" href="/admin/admin/remove/<%= e.id %>">移除管理員</a>
-                    </td>
-                    <td><%= e.id %></td>
-                    <td><%= e.displayName %></td>
-                    <td><%= e.email %></td>
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="/admin"><i class="fa fa-home fa-1x fa-inverse" aria-hidden="true"></i> 後台首頁</a></li>
+            <li class="active">管理員設定</li>
+        </ol>
+        <ul class="nav nav-tabs">
+            <li role="presentation"><a href="/admin">議題管理</a></li>
+            <li role="presentation" class="active"><a href="#">管理員管理</a></li>
+            <li role="presentation"><a href="/admin/faqs">常見問題管理</a></li>
+        </ul>
+        <table class="table table-striped table-hover table-condensed table-bordered">
+            <thead>
+                <tr class="active">
+                    <td>操作</td>
+                    <td>ID</td>
+                    <td>名稱</td>
+                    <td>email</td>
                 </tr>
-            <% }) %>
-        </tbody>
-    </table>
-    <form class="form-inline" action="/admin/admin/add" method="post">
-        <div class="form-group">
-            <label for="studentIdInput">增加管理員</label>
-            <input name="userId" type="text" class="form-control" placeholder="學號" id="studentIdInput">
-        </div>
-        <button type="submit" class="btn btn-primary">新增</button>
-    </form>
+            </thead>
+            <tbody>
+                <% data.admins.forEach((e, i) => { %>
+                    <tr>
+                        <td>
+                            <a onclick="return confirm('確定移除管理員?')?true:false" href="/admin/admin/remove/<%= e.id %>">移除管理員</a>
+                        </td>
+                        <td><%= e.id %></td>
+                        <td><%= e.displayName %></td>
+                        <td><%= e.email %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <form class="form-inline" action="/admin/admin/add" method="post">
+            <div class="form-group">
+                <label for="studentIdInput">增加管理員</label>
+                <input name="userId" type="text" class="form-control" placeholder="學號" id="studentIdInput">
+            </div>
+            <button type="submit" class="btn btn-primary">新增</button>
+        </form>
+    </div>
     <%- include ../footer %>
 </body>
 
