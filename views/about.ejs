@@ -1,0 +1,93 @@
+<html>
+
+<head>
+    <meta property="og:description" content="參與，讓彰師，變得更好。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= data.url %>" />
+    <meta property="og:rich_attachment" content="true" />
+    <%- include('head', {title : webTitle}) %>
+    <link rel="stylesheet" href="/styles/index.css">
+    <style>
+        .row {
+            margin-bottom: 30px;
+        }
+        
+        .row::after {
+          width: 70%;
+          height: 3px;
+          background-color: #eee;   
+          margin: 80px auto;
+          content: '';
+        }
+        
+        .row:last-child::after {
+          content: none;
+        }
+        
+        .icon {
+            color: #ffa43c;
+            margin-bottom:30px;
+        }
+        
+        .content {
+            line-height: 180%;
+            color: #757575;
+        }
+    </style>
+</head>
+
+<body>
+    <% include nav %>
+    <div id="banner">
+        <span class="block">
+            <p></p>
+            <p>讓彰師</p>
+            <p>變得更好</p>
+        </span>
+    </div>
+        <div class="container" style="margin-top:80px;">
+            <div class="row">
+                <h3 class="content">這是一個<a href="https://www.facebook.com/NCUEStudentUnion/">彰師大學生會</a>建立的「<a href="/">學生權益網路參與平台</a>」，
+                概念來自政府的「<a href="https://join.gov.tw">公共政策網路參與平台</a>」，
+                希望能夠藉由網路凝聚彰師大學生的力量，讓我們能夠精準且有力地向校方表達訴求。</h3>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-3 text-center">
+                    <h2><i class="icon fa fa-hand-rock-o fa-5x" aria-hidden="true"></i></h2>
+                </div>
+                <div class="col-xs-12 col-md-9">
+                    <h1>網路提案，鍵盤也能伸張正義</h1>
+                    <h3 class="content">收集好學生們的意見，並可以利用此平台，向各位彰師人公開在學校發生的任何不公平，只要案件被認為是侵害各位的權益，我們將代替你向學校反應，盡力為學生取回自己該有的權益。</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-3 text-center">
+                    <h2><i class="icon fa fa-hand-paper-o fa-5x" aria-hidden="true"></i></h2>
+                </div>
+                <div class="col-xs-12 col-md-9">
+                    <h1>我要附議！簡單連署學權議題</h1>
+                    <h3 class="content">只要<a href="/login">登入帳戶</a>，就可以針對自己認同的議題進行附議，讓學生會可以以「這個議題有許多學生實際關注」來向相關單位提議。</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-3 text-center">
+                    <h2><i class="icon fa fa-bell fa-5x" aria-hidden="true"></i></h2>
+                </div>
+                <div class="col-xs-12 col-md-9">
+                    <h1>關注議題，隨時通知最新消息</h1>
+                    <h3 class="content">
+                        只要你
+                        <button type="button" id="attention-btn" class=" btn btn-success">
+                            <span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>
+                            <span>關注</span>
+                        </button>
+                        這個議題，並且開啟通知權限，就算沒有打開網頁，也可以隨時接收這個議題的最新資訊，例如達到門檻或是有新回應。
+                    </h3>
+                </div>
+            </div>
+        </div>
+    <%- include footer %>
+
+</body>
+
+</html>

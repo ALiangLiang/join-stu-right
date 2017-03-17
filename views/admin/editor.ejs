@@ -1,0 +1,31 @@
+<html>
+
+<head>
+    <meta property="og:description" content="參與，讓彰師，變得更好。">
+    <meta property="og:type" content="website">
+    <meta property="og:rich_attachment" content="true" />
+    <%- include('../head', {title : webTitle}) %>
+    <link rel="stylesheet" href="/styles/index.css">
+</head>
+
+<body>
+    <% include ../nav %>
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="/admin"><i class="fa fa-home fa-1x fa-inverse" aria-hidden="true"></i> 後台首頁</a></li>
+            <li><a href="/admin/faqs">常見問題管理</a></li>
+            <li class="active">常見問題編輯</li>
+        </ol>
+        <form method="post">
+            <input name="title" type="text" class="form-control" placeholder="標題" value="<%= (typeof data !== 'undefined' && data.title) ? data.title : void 0 %>" />
+            <textarea id="editor" name="content" placeholder="Describe yourself here..."><%= (typeof data !== 'undefined' && data.content) ? data.content : void 0 %></textarea>
+            <button id="btn-create" type="submit" class="btn btn-primary">建立</button>
+        </form>
+    </div>
+    <%- include ../footer %>
+    <script src="//s1.ckeditor.com/themes/ckeditor4/vendor/ckeditor/4.6.2/ckeditor.js?omt1qx"></script>
+    <!--<script src="/ckeditor/ckeditor.js"></script>-->
+    <script src="/js/editor.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<html>
+
+<head>
+    <meta property="og:description" content="參與，讓彰師，變得更好。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= data.url %>" />
+    <meta property="og:rich_attachment" content="true" />
+    <%- include('../head', {title : webTitle}) %>
+    <link rel="stylesheet" href="/styles/index.css">
+</head>
+
+<body>
+    <% include ../nav %>
+    <div id="banner">
+        <span class="block">
+            <p></p>
+            <p>讓彰師</p>
+            <p>變得更好</p>
+        </span>
+    </div>
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-home fa-1x fa-inverse" aria-hidden="true"></i> 首頁</a></li>
+            <li class="active">常見問題</li>
+        </ol>
+        <div class="list-group">
+            <% data.faqs.sort((a, b) => a.id - b.id).forEach((faq, i) => { %>
+                  <a href="/faqs/detail/<%= faq.id %>" class="list-group-item"><%= faq.id %>. <%= faq.title %></a>
+            <% }); %>
+        </div>
+    </div>
+    <%- include ../footer %>
+
+</body>
+
+</html>

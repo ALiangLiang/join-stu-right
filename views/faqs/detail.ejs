@@ -1,0 +1,33 @@
+<% const isAchieved = ((data.endorse_number >= threshold) && data.secondStepCompletedAt); %>
+<html>
+
+<head>
+    <meta property="og:description" content="<%= data.content %>">
+    <meta property="og:type" content="article">
+    <meta property="article:author" content="https://www.facebook.com/128794183874722">
+    <meta property="og:url" content="<%= data.url %>" />
+    <meta property="og:rich_attachment" content="true" />
+    <link href="<%= data.rssUrl %>" rel="alternate" type="application/rss+xml" title="Sitewide RSS Feed" />
+    <%- include('../head', {title : data.title + ' | ' + webTitle}) %>
+</head>
+
+<body>
+    <% include ../nav %>
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-home fa-1x fa-inverse" aria-hidden="true"></i> 首頁</a></li>
+            <li><a href="/faqs">常見問題</a></li>
+            <li class="active"><%= data.title %></li>
+        </ol>
+        <div class="case-container">
+            <header class="page-header">
+                <h1><%= data.title %></h1>
+            </header>
+            <p><%- data.content %></p>
+        </div>
+    </div>
+    <% include ../footer %>
+
+</body>
+
+</html>
