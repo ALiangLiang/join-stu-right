@@ -17,8 +17,8 @@
             <li class="active">常見問題編輯</li>
         </ol>
         <form method="post">
-            <input name="title" type="text" class="form-control" placeholder="標題" value="<%= (typeof data !== 'undefined' && data.title) ? data.title : void 0 %>" />
-            <textarea id="editor" name="content" placeholder="Describe yourself here..."><%= (typeof data !== 'undefined' && data.content) ? data.content : void 0 %></textarea>
+            <input name="title" type="text" class="form-control" placeholder="標題" value="<%= (typeof data !== 'undefined' && data.title) ? data.title : void 0 %>" required />
+            <textarea id="editor" name="content" placeholder="內容"><%= (typeof data !== 'undefined' && data.content) ? data.content : void 0 %></textarea>
             <button id="btn-create" type="submit" class="btn btn-primary">建立</button>
         </form>
     </div>

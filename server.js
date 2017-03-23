@@ -7,6 +7,7 @@ const
   LocalStrategy = require('passport-local').Strategy,
   express = require('express'),
   app = express(),
+  pad = require('pad-left'),
   cookieParser = require('cookie-parser'),
   session = require('express-session'),
   RedisStore = require('connect-redis')(session),
@@ -189,13 +190,11 @@ Attention.belongsTo(Case);
 Attention.belongsTo(User);
 News.belongsTo(Attention);
 
-sequelize.sync({
-    force: true
-  })
-  .then(function() {
-    const fs = require('fs');
-    return sequelize.query(fs.readFileSync('test.sql', 'utf8'));
-  })
+sequelize.sync()
+  // .then(function() {
+  //   const fs = require('fs');
+  //   return sequelize.query(fs.readFileSync('test.sql', 'utf8'));
+  // })
   .then(() =>
     Config.findAll()
     .then((instances) =>
@@ -210,8 +209,9 @@ sequelize.sync({
 function main() {
   app.set('view engine', 'ejs');
 
-  app.locals.formatTime = (date) => (date) ? `${date.getYear() + 1900}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}` : '';
-  app.locals.formatDate = (date) => (date) ? `${date.getYear() + 1900}-${date.getMonth() + 1}-${date.getDate()}` : '';
+  const padTo2 = (str) => pad(str, 2, 0);
+  app.locals.formatDate = (date) => (date) ? `${date.getYear() + 1900}-${padTo2(date.getMonth() + 1)}-${padTo2(date.getDate())}` : '';
+  app.locals.formatTime = (date) => (date) ? `${app.locals.formatDate(date)} ${padTo2(date.getHours())}:${padTo2(date.getMinutes())}:${padTo2(date.getSeconds())}` : '';
 
   app.use(express.static('assets'));
   app.use(cookieParser());
@@ -602,6 +602,7 @@ function main() {
         res.render('faqs/index', {
           data: {
             url: getUrl(req),
+            title: '常見問題',
             faqs: instances.map((instance) => instance.toJSON())
           }
         }));
@@ -648,7 +649,7 @@ function main() {
         caseId: req.body.caseId,
         content: req.body.content
       })
-      /* 完成案件的回應階段 */
+      /* 完成案件���回應階段 */
       .then(() =>
         Case.update({
           step: 4,
@@ -699,7 +700,7 @@ function main() {
 
   router_admin.post('/threshold', function(req, res) {
     app.locals.threshold = req.body.threshold;
-    /* 變更資料庫中的門檻設定 */
+    /* 變更資料庫中的門檻設��� */
     Config.update({
         value: app.locals.threshold
       }, {
@@ -840,7 +841,7 @@ function main() {
           id: req.params.id
         }
       })
-      .then((instance) => 
+      .then((instance) =>
         res.render('admin/editor', {
           data: instance.toJSON()
         }));

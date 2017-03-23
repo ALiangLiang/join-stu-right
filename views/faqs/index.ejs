@@ -5,7 +5,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="<%= data.url %>" />
     <meta property="og:rich_attachment" content="true" />
-    <%- include('../head', {title : webTitle}) %>
+    <%- include('../head', {title : data.title + ' | ' + webTitle}) %>
     <link rel="stylesheet" href="/styles/index.css">
 </head>
 
@@ -25,7 +25,7 @@
         </ol>
         <div class="list-group">
             <% data.faqs.sort((a, b) => a.id - b.id).forEach((faq, i) => { %>
-                  <a href="/faqs/detail/<%= faq.id %>" class="list-group-item"><%= faq.id %>. <%= faq.title %></a>
+                  <a href="/faqs/detail/<%= faq.id %>" class="list-group-item"><%= i + 1 %>. <%= faq.title %></a>
             <% }); %>
         </div>
     </div>

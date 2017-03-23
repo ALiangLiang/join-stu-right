@@ -1,4 +1,25 @@
-# 學生權益參與系統
+# 學生權益網路參與平台
+
+### 安裝說明
+
+```sh
+sudo apt-get update # install Redis
+sudo apt-get install build-essential tcl
+cd /tmp
+curl -O http://download.redis.io/redis-stable.tar.gz
+tar xzvf redis-stable.tar.gz
+cd redis-stable
+make
+sudo mkdir /etc/redis
+sudo cp /tmp/redis-stable/redis.conf /etc/redis
+git clone https://github.com/ALiangLiang/join-stu-right.git # install this project
+cd join-stu-right
+npm i pm2 -g # install pm2 with global
+npm i
+cp db_config.example.json db_config.json
+nano db_config.json
+pm2 start ecosystem.config.js
+```
 
 ### join_stu_right/configs
 
